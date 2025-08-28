@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kariyot Chauk Hardware Store</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    header { background: #2c3e50; color: #fff; padding: 20px; text-align: center; }
+    header h1 { margin: 0; font-size: 28px; }
+    nav { background: #34495e; padding: 10px; text-align: center; }
+    nav a { color: #fff; margin: 0 15px; text-decoration: none; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    section { padding: 20px; max-width: 1000px; margin: auto; }
+    h2 { color: #2c3e50; }
+    .products, .options { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .card, .option-card, .auth-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; padding: 20px; }
+    .card img, .option-card img, .auth-card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+    .card h3, .option-card h3, .auth-card h3 { margin: 10px 0; }
+    .card p, .option-card p { margin: 10px; color: #555; }
+    .option-card a, .auth-card button { display: inline-block; margin-top: 10px; padding: 10px 14px; background: #2c3e50; color: #fff; border-radius: 6px; text-decoration: none; border: none; cursor: pointer; }
+    .option-card a:hover, .auth-card button:hover { background: #1a252f; }
+    .auth-card input { width: 80%; padding: 8px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; }
+    footer { background: #2c3e50; color: #fff; text-align: center; padding: 15px; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Kariyot Chauk Hardware Store</h1>
+    <p>आपका भरोसेमंद हार्डवेयर साथी</p>
+  </header>
+
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#options">Find</a>
+    <a href="#auth">Login/Register</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section id="products">
+    <!-- Products code same as before -->
+  </section>
+
+  <section id="options">
+    <!-- Options code same as before -->
+  </section>
+
+  <section id="auth">
+    <h2>User Login / Register with OTP</h2>
+    <div class="options">
+      <div class="auth-card">
+        <h3>Sign Up</h3>
+        <input type="text" id="signupName" placeholder="Full Name" required><br>
+        <input type="email" id="signupEmail" placeholder="Email" required><br>
+        <input type="password" id="signupPassword" placeholder="Password" required><br>
+        <button onclick="signUp()">Sign Up</button>
+      </div>
+      <div class="auth-card">
+        <h3>Sign In</h3>
+        <input type="email" id="signinEmail" placeholder="Email" required><br>
+        <input type="password" id="signinPassword" placeholder="Password" required><br>
+        <button onclick="signIn()">Sign In</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <!-- About code same as before -->
+  </section>
+
+  <section id="contact">
+    <!-- Contact code same as before -->
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Kariyot Chauk Hardware Store. सर्वाधिकार सुरक्षित।</p>
+  </footer>
+
+  <script>
+    function generateOTP() {
+      return Math.floor(100000 + Math.random() * 900000);
+    }
+
+    function signUp() {
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+
+      if(!name || !email || !password) { alert('सभी fields भरें'); return; }
+
+      const otp = generateOTP();
+      localStorage.setItem('otp', otp);
+      localStorage.setItem('signupData', JSON.stringify({name, email, password}));
+
+      const userOtp = prompt('OTP भेजा गया: ' + otp + '\nEnter OTP to verify');
+      if(userOtp == otp) {
+        alert('Sign Up successful! You can now Sign In');
+      } else {
+        alert('OTP गलत है. कृपया फिर से कोशिश करें');
+      }
+    }
+
+    function signIn() {
+      const email = document.getElementById('signinEmail').value;
+      const password = document.getElementById('signinPassword').value;
+      const signupData = JSON.parse(localStorage.getItem('signupData')) || {};
+
+      if(email === signupData.email && password === signupData.password) {
+        alert('Sign In successful! Welcome ' + signupData.name);
+      } else {
+        alert('Email या Password गलत है');
+      }
+    }
+  </script>
+</body>
+</html>
